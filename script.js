@@ -38,4 +38,4 @@ function updateTime() {
 }
 
 // Atualizando o tempo a cada 24HR
-setInterval(updateTime, 86400000);
+setInterval(updateTime, 1000);
