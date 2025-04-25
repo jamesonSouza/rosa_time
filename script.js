@@ -37,5 +37,5 @@ function updateTime() {
     rose.src = roseImage;
 }
 
-// Atualizando o tempo a cada segundo
-setInterval(updateTime, 1000);
+// Atualizando o tempo a cada 40HR
+setInterval(updateTime, 144000000000);
