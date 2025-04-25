@@ -23,13 +23,13 @@ function updateTime() {
     let roseImage = '';
 
     if (totalTime < 30) {
-        roseImage = '1.png'; // Broto
+        roseImage = '1.PNG'; // Broto
     } else if (totalTime >= 30 && totalTime < 90) {
-        roseImage = '2.png'; // Parcialmente aberta
+        roseImage = '2.PNG'; // Parcialmente aberta
     } else if (totalTime >= 90 && totalTime < 180) {
-        roseImage = '3.png'; // Rosa aberta
+        roseImage = '3.PNG'; // Rosa aberta
     } else {
-        roseImage = '4.png'; // Rosa totalmente aberta
+        roseImage = '4.PNG'; // Rosa totalmente aberta
     }
 
     // Alterando a imagem da rosa conforme o tempo
