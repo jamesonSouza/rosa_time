@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+}
+
+#timer-container {
+    background-color: #000000; /* Fundo preto */
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px; /* Define uma largura fixa para a caixa */
+    margin: 20px auto; /* Centraliza a caixa */
+}
+
+#timer {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: red; /* Números vermelhos */
+}
+
+.rose-container {
+    margin-top: 40px;
+}
+
+#rose {
+    max-width: 300px;  /* Ajusta o tamanho máximo da imagem da rosa */
+    max-height: 400px; /* Ajusta a altura máxima da imagem da rosa */
+    width: auto;       /* Mantém a proporção */
+    height: auto;      /* Mantém a proporção */
+    transition: transform 1s ease-in-out;
+}
