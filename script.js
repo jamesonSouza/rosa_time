@@ -23,13 +23,13 @@ function updateTime() {
     let roseImage = '';
 
     if (totalTime < 30) {
-        roseImage = 'https://jamesonsouza.github.io/rosa_time/3.png'; // Broto
+        roseImage = 'https://jamesonsouza.github.io/rosa_time/1.PNG'; // Broto
     } else if (totalTime >= 30 && totalTime < 90) {
-        roseImage = 'https://jamesonsouza.github.io/rosa_time/2.png'; // Parcialmente aberta
+        roseImage = 'https://jamesonsouza.github.io/rosa_time/2.PNG'; // Parcialmente aberta
     } else if (totalTime >= 90 && totalTime < 180) {
-        roseImage = 'https://jamesonsouza.github.io/rosa_time/3.png'; // Rosa aberta
+        roseImage = 'https://jamesonsouza.github.io/rosa_time/3.PNG'; // Rosa aberta
     } else {
-        roseImage = 'https://jamesonsouza.github.io/rosa_time/4.png'; // Rosa totalmente aberta
+        roseImage = 'https://jamesonsouza.github.io/rosa_time/4.PNG'; // Rosa totalmente aberta
     }
 
     // Alterando a imagem da rosa conforme o tempo
