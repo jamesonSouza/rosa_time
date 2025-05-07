@@ -17,7 +17,7 @@ function updateTime() {
     const totalTime = days; // Tempo total em dias para a mudança da imagem
 
     // Atualizando o tempo na tela (em anos, meses e dias)
-    document.getElementById('time').textContent = `${years} anos, ${months % 12} meses, ${days%30} dias`;
+    document.getElementById('time').textContent = `${years} anos, ${months % 12} meses, ${(days%30)-1} dias`;
 
     // Alterando a imagem da rosa conforme o tempo
     let roseImage = '';
