@@ -1,24 +1,178 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tempo de Namoro</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Contador de Namoro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #fdf2f8; /* Rosa bem clarinho */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        /* Esconder a barra de rolagem mas manter a funcionalidade */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .rose-container {
+            transition: transform 0.3s ease;
+        }
+        .rose-container:hover {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Tempo de Namoro</h1> 
-        <p style="color: red; font-weight: bolder; font-size: 2cap;">Cris, amo você!</p>
-        <div id="timer-container">
-            <div id="timer">
-                <p id="time">00:00:00</p>
-            </div>
+<body class="flex flex-col items-center justify-center min-h-screen p-4 text-gray-800 relative">
+
+    <!-- Background de Imagem (Ajuste a URL e a opacidade aqui) -->
+    <div class="fixed inset-0 z-[-1] bg-cover bg-center" 
+         style="background-image: url('IMG-20251224-WA0071.jpg'); opacity: 0.2;">
+    </div>
+
+    <div class="bg-white/80 backdrop-blur-md p-8 rounded-2xl shadow-xl text-center max-w-md w-full border border-pink-100">
+        <h1 class="text-3xl font-bold text-pink-600 mb-2">Nosso Tempo Juntos</h1>
+        <p class="text-gray-500 mb-6 text-sm">Desde 3 de Janeiro de 2025</p>
+        
+        <div class="rose-container mb-8">
+            <!-- Imagem da rosa. Usei um fallback de cor caso a imagem do github demore a carregar -->
+            <img id="rose" src="" alt="Rosa do nosso amor" class="w-48 h-48 object-cover mx-auto rounded-full border-4 border-pink-200 shadow-md bg-pink-50">
         </div>
-        <div class="rose-container">
-            <img id="rose" src="rose.png" alt="Rosa" />
+
+        <div class="bg-pink-50 rounded-xl p-4 shadow-inner mb-6">
+            <p class="text-sm text-pink-400 uppercase tracking-widest font-semibold mb-1">Tempo Exato</p>
+            <p id="time" class="text-2xl font-bold text-pink-700"></p>
+        </div>
+
+        <!-- Carrossel de Fotos (Galeria) -->
+        <div class="w-full">
+            <p class="text-sm text-pink-400 uppercase tracking-widest font-semibold mb-3">Nossas Memórias</p>
+            <div class="flex overflow-x-auto gap-3 pb-2 snap-x snap-mandatory scrollbar-hide">
+                <!-- Substitua o src pelas URLs das suas fotos -->
+                <img src="IMG-20251224-WA0071.jpg?w=300&h=200&fit=crop" class="gallery-img h-24 w-36 object-cover rounded-lg shadow shrink-0 snap-center cursor-pointer transition-transform hover:scale-105" alt="Foto 1">
+                <img src="IMG_20251231_215405371.jpg?w=300&h=200&fit=crop" class="gallery-img h-24 w-36 object-cover rounded-lg shadow shrink-0 snap-center cursor-pointer transition-transform hover:scale-105" alt="Foto 2">
+                <img src="IMG_20251231_202644086.JPG?w=300&h=200&fit=crop" class="gallery-img h-24 w-36 object-cover rounded-lg shadow shrink-0 snap-center cursor-pointer transition-transform hover:scale-105" alt="Foto 3">
+                <img src="IMG_20251231_213909306.JPG?w=300&h=200&fit=crop" class="gallery-img h-24 w-36 object-cover rounded-lg shadow shrink-0 snap-center cursor-pointer transition-transform hover:scale-105" alt="Foto 4">
+                   
+           
+            </div>
+            <p class="text-[10px] text-gray-400 mt-1">Deslize para os lados e clique para ampliar</p>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <!-- Overlay do Lightbox (Zoom da imagem) -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity cursor-pointer">
+        <img id="lightbox-img" src="" class="max-w-full max-h-full rounded-xl shadow-2xl transition-transform duration-300 scale-95" alt="Imagem Ampliada">
+    </div>
+
+    <script>
+        // Data de início do namoro (Ajustado para forçar a meia-noite e evitar bugs de fuso horário)
+        const startDate = new Date('2025-01-03T00:00:00');
+
+        function updateTime() {
+            const now = new Date();
+
+            // ==========================================
+            // 1. CÁLCULO INTELIGENTE (CALENDÁRIO REAL)
+            // ==========================================
+            let years = now.getFullYear() - startDate.getFullYear();
+            let months = now.getMonth() - startDate.getMonth();
+            let days = now.getDate() - startDate.getDate();
+
+            // Se os dias derem negativo, significa que ainda não chegou no dia do mês atual
+            // Então precisamos "pegar emprestado" 1 mês e somar os dias do mês anterior
+            if (days < 0) {
+                months--;
+                // Pega o número de dias que o mês anterior teve (trata anos bissextos automaticamente)
+                const diasNoMesAnterior = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+                days += diasNoMesAnterior;
+            }
+
+            // Se os meses derem negativo, "pegamos emprestado" 1 ano
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Formatação do texto para ficar bonito (singular/plural e omitindo zeros)
+            const textYears = years > 0 ? `${years} ${years === 1 ? 'ano' : 'anos'}` : '';
+            const textMonths = months > 0 ? `${months} ${months === 1 ? 'mês' : 'meses'}` : '';
+            const textDays = days > 0 ? `${days} ${days === 1 ? 'dia' : 'dias'}` : '';
+
+            // Junta as partes que têm algum valor
+            const timeParts = [textYears, textMonths, textDays].filter(part => part !== '');
+            let timeString = timeParts.join(', ');
+            
+            // Exibe na tela
+            document.getElementById('time').textContent = timeString || "Hoje!";
+
+            // ==========================================
+            // 2. CÁLCULO DE DIAS TOTAIS PARA A ROSA
+            // ==========================================
+            // Para a lógica da rosa, usamos os dias absolutos totais. 
+            // Usando Date.UTC garantimos que o horário de verão não roube 1 dia do cálculo.
+            const msPorDia = 1000 * 60 * 60 * 24;
+            const totalDays = Math.floor(
+                (Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - 
+                 Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())) / msPorDia
+            );
+
+            // Alterando a imagem da rosa conforme o tempo total de dias
+            let roseImage = '';
+            if (totalDays < 30) {
+                roseImage = 'https://jamesonsouza.github.io/rosa_time/1.PNG'; // Broto
+            } else if (totalDays >= 30 && totalDays < 90) {
+                roseImage = 'https://jamesonsouza.github.io/rosa_time/2.PNG'; // Parcialmente aberta
+            } else if (totalDays >= 90 && totalDays < 180) {
+                roseImage = 'https://jamesonsouza.github.io/rosa_time/3.PNG'; // Rosa aberta
+            } else {
+                roseImage = 'https://jamesonsouza.github.io/rosa_time/4.PNG'; // Rosa totalmente aberta
+            }
+
+            // Atualiza a imagem (se a imagem atual for diferente, para não piscar a tela)
+        const rose = document.getElementById('rose');
+        if (rose.getAttribute('src') !== roseImage) {
+                rose.src = roseImage;
+            }
+        }
+
+        // Executa imediatamente ao carregar
+        updateTime();
+
+        // Como o menor valor exibido são "dias", não precisamos atualizar a cada 1 segundo (1000ms).
+        // Atualizar a cada 1 hora (3600000ms) economiza bateria do celular/PC e tem o mesmo efeito visual.
+        // Se quiser voltar para 1 segundo, basta mudar para 1000.
+        setInterval(updateTime, 1000 * 60 * 60); 
+
+        // ==========================================
+        // 3. LÓGICA DO LIGHTBOX (ZOOM NAS FOTOS)
+        // ==========================================
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const galleryImages = document.querySelectorAll('.gallery-img');
+
+        galleryImages.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.remove('hidden');
+                // Pequeno delay para a animação de escala funcionar corretamente após remover o 'hidden'
+                setTimeout(() => {
+                    lightboxImg.classList.replace('scale-95', 'scale-100');
+                }, 10);
+            });
+        });
+
+        // Fecha o lightbox ao clicar em qualquer lugar fora da imagem (ou nela mesma)
+        lightbox.addEventListener('click', () => {
+            lightboxImg.classList.replace('scale-100', 'scale-95');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+            }, 200); // Aguarda o tempo da animação antes de esconder
+        });
+
+    </script>
 </body>
 </html>
